@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+
+    // Added the Google services Gradle plugin
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -47,6 +50,12 @@ android {
 }
 
 dependencies {
+    // Importing the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:31.4.0')
+    // Firebase Authentication
+    implementation('com.google.firebase:firebase-auth-ktx')
+    // Firebase Cloud Firestore
+    implementation('com.google.firebase:firebase-firestore-ktx')
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'

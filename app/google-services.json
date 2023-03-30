@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "444466060372",
+    "project_id": "jetreader-30032023",
+    "storage_bucket": "jetreader-30032023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444466060372:android:dca5a186ecca52391461c1",
+        "android_client_info": {
+          "package_name": "prakhar.udemy.jetpackcompose.jetreader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "444466060372-kbglh2l31kifuvqadiouli5ob1ki65i4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF9il3-v451rszgmhzmzMVNEQeW2zRu6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "444466060372-kbglh2l31kifuvqadiouli5ob1ki65i4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
