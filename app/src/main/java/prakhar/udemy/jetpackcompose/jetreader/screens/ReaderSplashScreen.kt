@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
+import prakhar.udemy.jetpackcompose.jetreader.components.JetReaderLogo
 import prakhar.udemy.jetpackcompose.jetreader.navigation.ReaderScreens
 
 @Composable
@@ -54,11 +55,7 @@ fun ReaderSplashScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "JetReader",
-                style = MaterialTheme.typography.h3,
-                color = Color.Red.copy(alpha = 0.5f)
-            )
+            JetReaderLogo()
             Spacer(modifier = Modifier.height(15.dp))
             Text(text = "\"Read... Change... Yourself\"")
         }
