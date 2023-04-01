@@ -1,26 +1,31 @@
 package prakhar.udemy.jetpackcompose.jetreader.components
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 
 @Composable
@@ -123,4 +128,37 @@ fun PasswordVisibility(passwordVisibility: MutableState<Boolean>) {
     IconButton(onClick = { passwordVisibility.value = !visible }) {
         Icons.Default.Close
     }
+}
+
+@Composable
+fun ReaderAppBar(
+    title: String,
+    showProfile: Boolean = true,
+    navController: NavController,
+) {
+    TopAppBar(
+        title = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (showProfile) {
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = "Logo Icon",
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .scale(0.9f)
+                    )
+
+                    Text(
+                        text = title,
+                        color = Color.Red.copy(alpha = 0.7f),
+                        style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    )
+
+                }
+            }
+        },
+        actions = {},
+        backgroundColor = Color.Transparent,
+        elevation = 0.dp
+    )
 }
