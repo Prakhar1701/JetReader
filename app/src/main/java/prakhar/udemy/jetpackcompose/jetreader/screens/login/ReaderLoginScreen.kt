@@ -29,10 +29,14 @@ import prakhar.udemy.jetpackcompose.jetreader.R
 import prakhar.udemy.jetpackcompose.jetreader.components.EmailInput
 import prakhar.udemy.jetpackcompose.jetreader.components.JetReaderLogo
 import prakhar.udemy.jetpackcompose.jetreader.components.PasswordInput
+import prakhar.udemy.jetpackcompose.jetreader.navigation.ReaderScreens
 import prakhar.udemy.jetpackcompose.jetreader.screens.search.SearchScreen
 
 @Composable
-fun ReaderLoginScreen(navController: NavController) {
+fun ReaderLoginScreen(
+    navController: NavController,
+    viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+) {
     val showLoginForm = rememberSaveable { mutableStateOf(true) }
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -44,7 +48,11 @@ fun ReaderLoginScreen(navController: NavController) {
                 loading = false,
                 isCreateAccount = false
             ) { email, password ->
-                //TODO
+                viewModel.signInWithEmailAndPassword(
+                    email, password,
+                ) {
+                    navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+                }
             }
             else {
                 UserForm(loading = false, isCreateAccount = true) { email, password ->
