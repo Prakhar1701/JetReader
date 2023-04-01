@@ -56,7 +56,9 @@ fun ReaderLoginScreen(
             }
             else {
                 UserForm(loading = false, isCreateAccount = true) { email, password ->
-                    //TODO
+                    viewModel.createUserWithEmailAndPassword(email, password) {
+                        navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+                    }
                 }
             }
         }
@@ -136,7 +138,6 @@ fun UserForm(
             onDone(email.value.trim(), password.value.trim())
             keyboardController?.hide()
         }
-
     }
 }
 
