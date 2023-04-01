@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -26,6 +27,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
+import prakhar.udemy.jetpackcompose.jetreader.navigation.ReaderScreens
 
 
 @Composable
@@ -153,11 +156,25 @@ fun ReaderAppBar(
                         color = Color.Red.copy(alpha = 0.7f),
                         style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
                     )
-
+                
                 }
             }
         },
-        actions = {},
+        actions = {
+            IconButton(onClick = {
+                FirebaseAuth.getInstance()
+                    .signOut().run {
+                        navController.navigate(ReaderScreens.LoginScreen.name)
+                    }
+            }) {
+                if (showProfile) Row() {
+                    Icon(
+                        imageVector = Icons.Filled.ExitToApp, //Logout Icon Not Found...
+                        contentDescription = "Logout",
+                    )
+                }
+            }
+        },
         backgroundColor = Color.Transparent,
         elevation = 0.dp
     )
