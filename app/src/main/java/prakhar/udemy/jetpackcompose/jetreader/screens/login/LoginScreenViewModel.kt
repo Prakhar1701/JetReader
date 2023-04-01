@@ -10,6 +10,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
+import prakhar.udemy.jetpackcompose.jetreader.model.MUser
 
 class LoginScreenViewModel : ViewModel() {
     //    val loadingState = MutableStateFlow(LoadingState.IDLE)
@@ -66,9 +67,15 @@ class LoginScreenViewModel : ViewModel() {
 
     private fun createUser(displayName: String?) {
         val userId = auth.currentUser?.uid
-        val user = mutableMapOf<String, Any>()
-        user["user_id"] = userId.toString()
-        user["display_name"] = displayName.toString();
+
+        val user = MUser(
+            userId = userId.toString(),
+            displayName = displayName.toString(),
+            avatarUrl = "",
+            quote = "Life is great",
+            profession = "Android Developer",
+            id = null
+        ).toMap()
 
         FirebaseFirestore.getInstance().collection("users")
             .add(user)
