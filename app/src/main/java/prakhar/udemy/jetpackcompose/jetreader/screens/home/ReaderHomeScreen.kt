@@ -2,6 +2,7 @@ package prakhar.udemy.jetpackcompose.jetreader.screens.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -52,7 +53,7 @@ fun HomeContent(navController: NavController = NavController(LocalContext.curren
     } else "N/A"
     Column(
         Modifier.padding(2.dp),
-        verticalArrangement = Arrangement.SpaceEvenly
+        verticalArrangement = Arrangement.Top
     ) {
         Row(modifier = Modifier.align(alignment = Alignment.Start)) {
 
@@ -90,4 +91,46 @@ fun ReadingRightNowArea(
     listOfBooks: List<MBook>,
     navController: NavController
 ) {
+}
+
+@Composable
+fun ListCard(
+    book: MBook,
+    onPressDetails: (String) -> Unit = {}
+) {
+    val context = LocalContext.current
+    val resources = context.resources
+    val displayMetrics = resources.displayMetrics
+    val screenWidth = displayMetrics.widthPixels / displayMetrics.density
+    val spacing = 10.dp
+
+    Card(shape = RoundedCornerShape(29.dp),
+        backgroundColor = Color.White,
+        elevation = 6.dp,
+        modifier = Modifier
+            .padding(16.dp)
+            .height(242.dp)
+            .width(202.dp)
+            .clickable { onPressDetails.invoke(book.title.toString()) }) {
+
+        Column(
+            modifier = Modifier.width(screenWidth.dp - (spacing * 2)),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Row(horizontalArrangement = Arrangement.Center) {
+
+//                Image(
+//                    painter = rememberImagePainter(data = ""), //Coil function not found :(
+//                    contentDescription = "book image",
+//                    modifier = Modifier
+//                        .height(140.dp)
+//                        .width(100.dp)
+//                        .padding(4.dp)
+//                )
+
+                Spacer(modifier = Modifier.width(50.dp))
+                Column() {}
+            }
+        }
+    }
 }
