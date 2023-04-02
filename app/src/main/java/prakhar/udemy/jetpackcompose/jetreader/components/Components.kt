@@ -1,5 +1,6 @@
 package prakhar.udemy.jetpackcompose.jetreader.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -8,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Favorite
@@ -19,18 +21,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import prakhar.udemy.jetpackcompose.jetreader.navigation.ReaderScreens
 
-
+//--------------------------------------------------------------------------------------------------
 @Composable
 fun JetReaderLogo(modifier: Modifier = Modifier) {
     Text(
@@ -41,7 +45,7 @@ fun JetReaderLogo(modifier: Modifier = Modifier) {
     )
 }
 
-
+//--------------------------------------------------------------------------------------------------
 @Composable
 fun EmailInput(
     modifier: Modifier = Modifier,
@@ -61,7 +65,6 @@ fun EmailInput(
         onAction = onAction
     )
 }
-
 
 @Composable
 fun InputField(
@@ -133,6 +136,7 @@ fun PasswordVisibility(passwordVisibility: MutableState<Boolean>) {
     }
 }
 
+//--------------------------------------------------------------------------------------------------
 @Composable
 fun ReaderAppBar(
     title: String,
@@ -156,7 +160,7 @@ fun ReaderAppBar(
                         color = Color.Red.copy(alpha = 0.7f),
                         style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
                     )
-                
+
                 }
             }
         },
@@ -178,4 +182,36 @@ fun ReaderAppBar(
         backgroundColor = Color.Transparent,
         elevation = 0.dp
     )
+}
+
+@Composable
+fun TitleSection(
+    modifier: Modifier = Modifier,
+    label: String
+) {
+    Surface(modifier = modifier.padding(start = 5.dp, top = 1.dp)) {
+        Column {
+            Text(
+                text = label,
+                fontSize = 19.sp,
+                fontStyle = FontStyle.Normal,
+                textAlign = TextAlign.Left
+            )
+        }
+    }
+}
+
+@Composable
+fun FABContent(onTop: () -> Unit) {
+    FloatingActionButton(
+        onClick = { onTop() },
+        shape = RoundedCornerShape(50.dp),
+        backgroundColor = Color(0XFF92CBDF)
+    ) {
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = "Add a Book",
+            tint = Color.White
+        )
+    }
 }
