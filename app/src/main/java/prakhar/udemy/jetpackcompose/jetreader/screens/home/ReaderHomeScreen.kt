@@ -32,7 +32,9 @@ fun HomeScreen(navController: NavController) {
         ReaderAppBar(title = "JetReader", navController = navController)
     },
         floatingActionButton = {
-            FABContent {}
+            FABContent {
+                navController.navigate(ReaderScreens.SearchScreen.name)
+            }
         }) { contentPadding ->
         Surface(
             modifier = Modifier

@@ -11,7 +11,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
-import prakhar.udemy.jetpackcompose.jetreader.navigation.ReaderScreens
 
 @Preview
 @Composable
@@ -25,8 +24,8 @@ fun SearchScreen(
             navController = navController,
             showProfile = false
         ) {
-            //navController.popBackStack()
-            navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+            navController.popBackStack()  //Works Better :)
+//          navController.navigate(ReaderScreens.ReaderHomeScreen.name)
         }
     }) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) { /* ... */ }
