@@ -1,7 +1,10 @@
 package prakhar.udemy.jetpackcompose.jetreader.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -46,6 +49,13 @@ fun HomeScreen(navController: NavController) {
 @Preview
 @Composable
 fun HomeContent(navController: NavController = NavController(LocalContext.current)) {
+    val listOfBooks = listOf(
+        MBook(id = "101", title = "Hello", authors = "All of us", notes = null),
+        MBook(id = "102", title = "Hello Again", authors = "All of us", notes = null),
+        MBook(id = "103", title = "Hi!", authors = "The world us", notes = null),
+        MBook(id = "104", title = "I am Prakhar", authors = "All of us", notes = null),
+        MBook(id = "105", title = "Love You :)", authors = "All of us", notes = null)
+    )
     val email = FirebaseAuth.getInstance().currentUser?.email
     val currentUserName = if (!email.isNullOrEmpty()) {
         //prakhar@me.com -> prakhar
@@ -83,14 +93,54 @@ fun HomeContent(navController: NavController = NavController(LocalContext.curren
                 Divider()
             }
         }
-        ListCard()
+
+        ReadingRightNowArea(listOfBooks = listOf(), navController = navController)
+
+        TitleSection(label = "Reading List")
+
+        // BookListArea(listOfBooks = emptyList(), navController = navController)
+        BookListArea(listOfBooks = listOfBooks, navController = navController)
     }
 }
+
+@Composable
+fun BookListArea(
+    listOfBooks: List<MBook>,
+    navController: NavController
+) {
+    HorizontalScrollableComponent(listOfBooks) {
+        Log.d("Reading List", "BookListArea $it")
+        //TODO: On card clicked navigate to details
+    }
+}
+
 
 @Composable
 fun ReadingRightNowArea(
     listOfBooks: List<MBook>,
     navController: NavController
 ) {
+    ListCard()
 }
 
+
+@Composable
+fun HorizontalScrollableComponent(
+    listOfBooks: List<MBook>,
+    onCardPressed: (String) -> Unit
+) {
+    val scrollState = rememberScrollState()
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(280.dp)
+            .horizontalScroll(scrollState)
+    ) {
+        for (book in listOfBooks) {
+            ListCard(book) {
+                onCardPressed(it)
+            }
+        }
+    }
+}

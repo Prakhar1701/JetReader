@@ -243,7 +243,7 @@ fun BookRating(score: Double = 4.5) {
 @Preview
 @Composable
 fun ListCard(
-    book: MBook = MBook("P", "R", "A", "KHAR"),
+    book: MBook = MBook("19", "The Subtle Art Of Not Giving A Fuck", "Unknown", "Very Good Book!"),
     onPressDetails: (String) -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -292,14 +292,14 @@ fun ListCard(
                 }
             }
             Text(
-                text = "Book title", modifier = Modifier.padding(4.dp),
+                text = book.title.toString(), modifier = Modifier.padding(4.dp),
                 fontWeight = FontWeight.Bold,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
 
             Text(
-                text = "Authors: All...", modifier = Modifier.padding(4.dp),
+                text = book.authors.toString(), modifier = Modifier.padding(4.dp),
                 style = MaterialTheme.typography.caption
             )
             Row(
@@ -344,7 +344,7 @@ fun RoundedButton(
                 style = TextStyle(
                     color = Color.White,
                     fontSize = 15.sp
-                ),
+                )
             )
         }
     }
