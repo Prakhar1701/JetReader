@@ -129,7 +129,7 @@ fun ListCard(
             Row(horizontalArrangement = Arrangement.Center) {
 
                 Image(
-                    painter = rememberAsyncImagePainter(model = ""),
+                    painter = rememberAsyncImagePainter(model = "https://books.google.co.in/books/publisher/content?id=yng_CwAAQBAJ&pg=PP1&img=1&zoom=3&hl=en&bul=1&sig=ACfU3U1kgxrlkVTslOGgCqkLy6v9ANZV8g&w=1280"),
                     contentDescription = "book image",
                     modifier = Modifier
                         .height(140.dp)
@@ -229,4 +229,3 @@ fun RoundedButton(
         }
     }
 }
-
