@@ -1,5 +1,6 @@
 package prakhar.udemy.jetpackcompose.jetreader.screens.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.auth.FirebaseAuth
 import prakhar.udemy.jetpackcompose.jetreader.components.FABContent
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
@@ -119,14 +121,14 @@ fun ListCard(
         ) {
             Row(horizontalArrangement = Arrangement.Center) {
 
-//                Image(
-//                    painter = rememberImagePainter(data = ""), //Coil function not found :(
-//                    contentDescription = "book image",
-//                    modifier = Modifier
-//                        .height(140.dp)
-//                        .width(100.dp)
-//                        .padding(4.dp)
-//                )
+                Image(
+                    painter = rememberAsyncImagePainter(model = ""),
+                    contentDescription = "book image",
+                    modifier = Modifier
+                        .height(140.dp)
+                        .width(100.dp)
+                        .padding(4.dp)
+                )
 
                 Spacer(modifier = Modifier.width(50.dp))
                 Column() {}
