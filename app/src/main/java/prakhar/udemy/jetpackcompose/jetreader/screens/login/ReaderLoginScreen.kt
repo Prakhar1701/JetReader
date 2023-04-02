@@ -1,7 +1,5 @@
 package prakhar.udemy.jetpackcompose.jetreader.screens.login
 
-import android.util.Log
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -30,7 +28,6 @@ import prakhar.udemy.jetpackcompose.jetreader.components.EmailInput
 import prakhar.udemy.jetpackcompose.jetreader.components.JetReaderLogo
 import prakhar.udemy.jetpackcompose.jetreader.components.PasswordInput
 import prakhar.udemy.jetpackcompose.jetreader.navigation.ReaderScreens
-import prakhar.udemy.jetpackcompose.jetreader.screens.search.SearchScreen
 
 @Composable
 fun ReaderLoginScreen(

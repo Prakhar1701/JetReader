@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -27,7 +28,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -142,8 +142,10 @@ fun PasswordVisibility(passwordVisibility: MutableState<Boolean>) {
 @Composable
 fun ReaderAppBar(
     title: String,
+    icon: ImageVector? = null,
     showProfile: Boolean = true,
     navController: NavController,
+    onBackArrowClicked: () -> Unit = {}
 ) {
     TopAppBar(
         title = {
@@ -156,30 +158,38 @@ fun ReaderAppBar(
                             .clip(RoundedCornerShape(12.dp))
                             .scale(0.9f)
                     )
-
-                    Text(
-                        text = title,
-                        color = Color.Red.copy(alpha = 0.7f),
-                        style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                    )
-
                 }
+                if (icon != null) {
+                    Icon(
+                        imageVector = icon, contentDescription = "Arrow Back",
+                        tint = Color.Red.copy(alpha = 0.7f),
+                        modifier = Modifier.clickable { onBackArrowClicked.invoke() }
+                    )
+                }
+                Spacer(modifier = Modifier.width(40.dp))
+                Text(
+                    text = title,
+                    color = Color.Red.copy(alpha = 0.7f),
+                    style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                )
             }
         },
         actions = {
-            IconButton(onClick = {
-                FirebaseAuth.getInstance()
-                    .signOut().run {
-                        navController.navigate(ReaderScreens.LoginScreen.name)
+            if (showProfile) {
+                IconButton(onClick = {
+                    FirebaseAuth.getInstance()
+                        .signOut().run {
+                            navController.navigate(ReaderScreens.LoginScreen.name)
+                        }
+                }) {
+                    Row() {
+                        Icon(
+                            imageVector = Icons.Filled.ExitToApp, //Logout Icon Not Found...
+                            contentDescription = "Logout",
+                        )
                     }
-            }) {
-                if (showProfile) Row() {
-                    Icon(
-                        imageVector = Icons.Filled.ExitToApp, //Logout Icon Not Found...
-                        contentDescription = "Logout",
-                    )
                 }
-            }
+            } else Box {}
         },
         backgroundColor = Color.Transparent,
         elevation = 0.dp
@@ -240,7 +250,7 @@ fun BookRating(score: Double = 4.5) {
 }
 
 
-@Preview
+//@Preview
 @Composable
 fun ListCard(
     book: MBook = MBook("19", "The Subtle Art Of Not Giving A Fuck", "Unknown", "Very Good Book!"),
@@ -349,3 +359,4 @@ fun RoundedButton(
         }
     }
 }
+//--------------------------------------------------------------------------------------------------
