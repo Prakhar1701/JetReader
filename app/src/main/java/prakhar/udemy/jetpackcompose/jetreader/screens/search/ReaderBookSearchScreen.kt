@@ -18,22 +18,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import prakhar.udemy.jetpackcompose.jetreader.components.InputField
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
-import prakhar.udemy.jetpackcompose.jetreader.model.MBook
+import prakhar.udemy.jetpackcompose.jetreader.model.Item
 
-@Preview
 @Composable
 fun SearchScreen(
-    navController: NavController = NavController(LocalContext.current),
+    navController: NavController,
+    viewModel: BooksSearchViewModel = hiltViewModel()
 ) {
     Scaffold(topBar = {
         ReaderAppBar(
@@ -53,8 +52,9 @@ fun SearchScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
-                ) {
-                    Log.d("SearchForm", "SearchScreen: $it")
+                ) { searchQuery ->
+                    Log.d("SearchForm", "SearchScreen: $searchQuery")
+                    viewModel.searchBooks(query = searchQuery)
                 }
                 Spacer(modifier = Modifier.height(13.dp))
                 BookList(navController)
@@ -64,15 +64,17 @@ fun SearchScreen(
 }
 
 @Composable
-fun BookList(navController: NavController) {
+fun BookList(navController: NavController, viewModel: BooksSearchViewModel = hiltViewModel()) {
 
-    val listOfBooks = listOf(
-        MBook(id = "101", title = "Hello", authors = "All of us", notes = null),
-        MBook(id = "102", title = "Hello Again", authors = "All of us", notes = null),
-        MBook(id = "103", title = "Hi!", authors = "The world us", notes = null),
-        MBook(id = "104", title = "I am Prakhar", authors = "All of us", notes = null),
-        MBook(id = "105", title = "Love You :)", authors = "All of us", notes = null)
-    )
+//    val listOfBooks = listOf(
+//        MBook(id = "101", title = "Hello", authors = "All of us", notes = null),
+//        MBook(id = "102", title = "Hello Again", authors = "All of us", notes = null),
+//        MBook(id = "103", title = "Hi!", authors = "The world us", notes = null),
+//        MBook(id = "104", title = "I am Prakhar", authors = "All of us", notes = null),
+//        MBook(id = "105", title = "Love You :)", authors = "All of us", notes = null)
+//    )
+
+    val listOfBooks = viewModel.list
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -86,7 +88,7 @@ fun BookList(navController: NavController) {
 
 @Composable
 fun BookRow(
-    book: MBook,
+    book: Item,
     navController: NavController
 ) {
     Card(modifier = Modifier
@@ -100,8 +102,12 @@ fun BookRow(
             modifier = Modifier.padding(5.dp),
             verticalAlignment = Alignment.Top
         ) {
-            val imageUrl =
-                "https://books.google.co.in/books/publisher/content?id=yng_CwAAQBAJ&pg=PP1&img=1&zoom=3&hl=en&bul=1&sig=ACfU3U1kgxrlkVTslOGgCqkLy6v9ANZV8g&w=1280"
+
+            val imageUrl: String = if (book.volumeInfo.imageLinks.smallThumbnail.isEmpty()) {
+                "https://i.stack.imgur.com/D2VB2.png"
+            } else {
+                book.volumeInfo.imageLinks.smallThumbnail
+            }
 
             Image(
                 painter = rememberAsyncImagePainter(model = imageUrl),
@@ -113,10 +119,10 @@ fun BookRow(
             )
 
             Column {
-                Text(text = book.title.toString(), overflow = TextOverflow.Ellipsis)
+                Text(text = book.volumeInfo.title, overflow = TextOverflow.Ellipsis)
 
                 Text(
-                    text = "Author: ${book.authors}",
+                    text = "Author: ${book.volumeInfo.authors}",
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
                     style = MaterialTheme.typography.caption
