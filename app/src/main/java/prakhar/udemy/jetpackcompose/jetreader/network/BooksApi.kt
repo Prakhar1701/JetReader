@@ -1,4 +1,4 @@
-package prakhar.udemy.jetpackcompose.jetreader.screens.search.network
+package prakhar.udemy.jetpackcompose.jetreader.network
 
 import prakhar.udemy.jetpackcompose.jetreader.model.Books
 import prakhar.udemy.jetpackcompose.jetreader.model.Item

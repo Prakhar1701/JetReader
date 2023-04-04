@@ -2,7 +2,7 @@ package prakhar.udemy.jetpackcompose.jetreader.repository
 
 import prakhar.udemy.jetpackcompose.jetreader.data.DataOrException
 import prakhar.udemy.jetpackcompose.jetreader.model.Item
-import prakhar.udemy.jetpackcompose.jetreader.screens.search.network.BooksApi
+import prakhar.udemy.jetpackcompose.jetreader.network.BooksApi
 import javax.inject.Inject
 
 class BooksRepository @Inject constructor(private val api: BooksApi) {

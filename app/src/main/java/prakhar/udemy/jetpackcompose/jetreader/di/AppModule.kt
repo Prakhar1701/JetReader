@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import prakhar.udemy.jetpackcompose.jetreader.repository.BooksRepository
-import prakhar.udemy.jetpackcompose.jetreader.screens.search.network.BooksApi
+import prakhar.udemy.jetpackcompose.jetreader.network.BooksApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
