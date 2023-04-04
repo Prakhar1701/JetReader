@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BookSearchViewModel @Inject constructor(private val repository: BooksRepository) :
     ViewModel() {
-    private val listOfBooks: MutableState<DataOrException<List<Item>, Boolean, Exception>> =
+    val listOfBooks: MutableState<DataOrException<List<Item>, Boolean, Exception>> =
         mutableStateOf(DataOrException(null, true, Exception("")))
 
     init {
