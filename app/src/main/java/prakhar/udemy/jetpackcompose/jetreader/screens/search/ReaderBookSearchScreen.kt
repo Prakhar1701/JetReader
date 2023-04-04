@@ -18,22 +18,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import prakhar.udemy.jetpackcompose.jetreader.components.InputField
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
 import prakhar.udemy.jetpackcompose.jetreader.model.MBook
 
-@Preview
+
 @Composable
 fun SearchScreen(
-    navController: NavController = NavController(LocalContext.current),
+    navController: NavController,
+    viewModel: BookSearchViewModel = hiltViewModel()
 ) {
     Scaffold(topBar = {
         ReaderAppBar(
@@ -52,9 +52,14 @@ fun SearchScreen(
                 SearchForm(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
+                        .padding(16.dp),
+                    viewModel = viewModel
                 ) {
-                    Log.d("SearchForm", "SearchScreen: $it")
+
+                        query ->
+                    viewModel.searchBooks(query)
+                      Log.d("SearchForm", "SearchScreen: $query")
+
                 }
                 Spacer(modifier = Modifier.height(13.dp))
                 BookList(navController)
@@ -131,6 +136,7 @@ fun BookRow(
 @Composable
 fun SearchForm(
     modifier: Modifier = Modifier,
+    viewModel: BookSearchViewModel,
     loading: Boolean = false,
     hint: String = "Search",
     onSearch: (String) -> Unit = {}
