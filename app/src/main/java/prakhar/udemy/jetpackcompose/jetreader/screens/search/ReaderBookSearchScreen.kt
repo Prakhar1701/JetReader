@@ -76,14 +76,28 @@ fun BookList(navController: NavController, viewModel: BooksSearchViewModel = hil
 
     val listOfBooks = viewModel.list
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp)
-    ) {
-        items(items = listOfBooks) { book ->
-            BookRow(book, navController)
+    if (viewModel.isLoading) {
+        
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            LinearProgressIndicator()
         }
+
+    } else {
+
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(16.dp)
+        ) {
+            items(items = listOfBooks) { book ->
+                BookRow(book, navController)
+            }
+        }
+
     }
+
 }
 
 @Composable
