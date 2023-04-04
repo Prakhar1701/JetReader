@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import prakhar.udemy.jetpackcompose.jetreader.components.InputField
@@ -32,7 +33,7 @@ import prakhar.udemy.jetpackcompose.jetreader.model.MBook
 @Composable
 fun SearchScreen(
     navController: NavController,
-    viewModel: BookSearchViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    viewModel: BookSearchViewModel = hiltViewModel()
 ) {
     Scaffold(topBar = {
         ReaderAppBar(
@@ -57,24 +58,18 @@ fun SearchScreen(
 
                         query ->
                     viewModel.searchBooks(query)
-                    Log.d("SearchForm", "SearchScreen: $query")
+                      Log.d("SearchForm", "SearchScreen: $query")
 
                 }
                 Spacer(modifier = Modifier.height(13.dp))
-                BookList(navController, viewModel)
+                BookList(navController)
             }
         }
     }
 }
 
 @Composable
-fun BookList(navController: NavController, viewModel: BookSearchViewModel) {
-    if (viewModel.listOfBooks.value.loading == true) {
-        Log.d("Search", "BookList: loading...")
-        CircularProgressIndicator()
-    } else {
-        Log.d("Search", "BookList: ${viewModel.listOfBooks.value.data}")
-    }
+fun BookList(navController: NavController) {
 
     val listOfBooks = listOf(
         MBook(id = "101", title = "Hello", authors = "All of us", notes = null),

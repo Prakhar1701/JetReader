@@ -1,7 +1,6 @@
 package prakhar.udemy.jetpackcompose.jetreader.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -9,7 +8,6 @@ import prakhar.udemy.jetpackcompose.jetreader.screens.ReaderSplashScreen
 import prakhar.udemy.jetpackcompose.jetreader.screens.details.BookDetailsScreen
 import prakhar.udemy.jetpackcompose.jetreader.screens.home.HomeScreen
 import prakhar.udemy.jetpackcompose.jetreader.screens.login.ReaderLoginScreen
-import prakhar.udemy.jetpackcompose.jetreader.screens.search.BookSearchViewModel
 import prakhar.udemy.jetpackcompose.jetreader.screens.search.SearchScreen
 import prakhar.udemy.jetpackcompose.jetreader.screens.stats.ReaderStatsScreen
 import prakhar.udemy.jetpackcompose.jetreader.screens.update.BookUpdateScreen
@@ -28,8 +26,7 @@ fun ReaderNavigation() {
             ReaderLoginScreen(navController = navController)
         }
         composable(ReaderScreens.SearchScreen.name) {
-            val viewModel = hiltViewModel<BookSearchViewModel>()
-            SearchScreen(navController = navController, viewModel)
+            SearchScreen(navController = navController)
         }
         composable(ReaderScreens.DetailScreen.name) {
             BookDetailsScreen(navController = navController)
