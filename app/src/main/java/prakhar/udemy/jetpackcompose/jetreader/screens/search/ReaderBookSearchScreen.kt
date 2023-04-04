@@ -77,7 +77,7 @@ fun BookList(navController: NavController, viewModel: BooksSearchViewModel = hil
     val listOfBooks = viewModel.list
 
     if (viewModel.isLoading) {
-        
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
@@ -133,10 +133,27 @@ fun BookRow(
             )
 
             Column {
-                Text(text = book.volumeInfo.title, overflow = TextOverflow.Ellipsis)
+                Text(
+                    text = book.volumeInfo.title, //Book Title
+                    overflow = TextOverflow.Ellipsis
+                )
 
                 Text(
                     text = "Author: ${book.volumeInfo.authors}",
+                    overflow = TextOverflow.Clip,
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.caption
+                )
+
+                Text(
+                    text = "Published Date: ${book.volumeInfo.publishedDate}",
+                    overflow = TextOverflow.Clip,
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.caption
+                )
+
+                Text(
+                    text = "Categories: ${book.volumeInfo.categories}",
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
                     style = MaterialTheme.typography.caption
