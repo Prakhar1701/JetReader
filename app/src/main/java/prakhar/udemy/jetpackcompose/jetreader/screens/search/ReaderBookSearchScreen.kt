@@ -28,6 +28,7 @@ import coil.compose.rememberAsyncImagePainter
 import prakhar.udemy.jetpackcompose.jetreader.components.InputField
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
 import prakhar.udemy.jetpackcompose.jetreader.model.Item
+import prakhar.udemy.jetpackcompose.jetreader.navigation.ReaderScreens
 
 @Composable
 fun SearchScreen(
@@ -106,7 +107,9 @@ fun BookRow(
     navController: NavController
 ) {
     Card(modifier = Modifier
-        .clickable {}
+        .clickable {
+            navController.navigate(ReaderScreens.DetailScreen.name)
+        }
         .fillMaxWidth()
         .height(100.dp)
         .padding(3.dp), shape = RectangleShape,
