@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
 
 @Composable
-fun BookDetailsScreen(navController: NavController) {
+fun BookDetailsScreen(navController: NavController, bookId: String) {
 
     Scaffold(topBar = {
         ReaderAppBar(
@@ -42,7 +42,7 @@ fun BookDetailsScreen(navController: NavController) {
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Book Description...")
+                Text(text = "Book Id: $bookId")
             }
 
         }

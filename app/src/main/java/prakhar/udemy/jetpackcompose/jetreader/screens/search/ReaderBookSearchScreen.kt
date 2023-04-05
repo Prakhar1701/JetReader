@@ -108,7 +108,7 @@ fun BookRow(
 ) {
     Card(modifier = Modifier
         .clickable {
-            navController.navigate(ReaderScreens.DetailScreen.name)
+            navController.navigate(ReaderScreens.DetailScreen.name + "/${book.id}")
         }
         .fillMaxWidth()
         .height(100.dp)
