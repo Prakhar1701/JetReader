@@ -1,8 +1,10 @@
 package prakhar.udemy.jetpackcompose.jetreader.screens.details
 
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,8 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -114,5 +120,30 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
             style = MaterialTheme.typography.subtitle1
         )
     }
+
     
+    // Book Description:
+    val cleanDescription = HtmlCompat.fromHtml(
+        bookData!!.description,
+        HtmlCompat.FROM_HTML_MODE_LEGACY
+    ).toString()
+
+    val localDims = LocalContext.current.resources.displayMetrics
+
+    Surface(
+        modifier = Modifier
+            .height(localDims.heightPixels.dp.times(0.13f))
+            .padding(4.dp),
+        shape = RectangleShape,
+        border = BorderStroke(1.dp, Color.DarkGray)
+    ) {
+
+        LazyColumn(modifier = Modifier.padding(3.dp)) {
+            item {
+
+                Text(text = cleanDescription)
+            }
+        }
+    }
+
 }
