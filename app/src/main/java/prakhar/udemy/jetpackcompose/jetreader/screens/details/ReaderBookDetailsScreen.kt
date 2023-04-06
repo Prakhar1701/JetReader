@@ -1,23 +1,21 @@
 package prakhar.udemy.jetpackcompose.jetreader.screens.details
 
 import android.util.Log
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
 import prakhar.udemy.jetpackcompose.jetreader.data.Resource
 import prakhar.udemy.jetpackcompose.jetreader.model.Item
@@ -62,7 +60,7 @@ fun BookDetailsScreen(
                 if (bookInfo.data == null) {
                     CircularProgressIndicator()
                 } else {
-                    Text(text = "Book Title: ${bookInfo.data.volumeInfo.title}")
+                    ShowBookDetails(bookInfo, navController)
                 }
 
             }
@@ -71,4 +69,50 @@ fun BookDetailsScreen(
 
     }
 
+}
+
+@Composable
+fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
+
+    val googleBookId = bookInfo.data?.id
+    val bookData = bookInfo.data?.volumeInfo
+
+
+    Card(shape = RoundedCornerShape(10.dp), elevation = 4.dp) {
+        Image(
+            painter = rememberAsyncImagePainter(model = bookData!!.imageLinks.thumbnail),
+            contentDescription = "Book Thumbnail",
+            modifier = Modifier
+                .width(130.dp)
+                .height(150.dp)
+                .padding(1.dp)
+        )
+    }
+
+
+    Column(
+        modifier = Modifier.padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        Text(
+            text = bookData?.title.toString(),
+            style = MaterialTheme.typography.h6,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 19
+        )
+        Text(text = "Authors: ${bookData?.authors.toString()}")
+        Text(text = "Page Count: ${bookData?.pageCount.toString()}")
+        Text(
+            text = "Categories: ${bookData?.categories.toString()}",
+            style = MaterialTheme.typography.subtitle1,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(
+            text = "Published: ${bookData?.publishedDate.toString()}",
+            style = MaterialTheme.typography.subtitle1
+        )
+    }
+    
 }
