@@ -22,6 +22,7 @@ import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
 import prakhar.udemy.jetpackcompose.jetreader.components.RoundedButton
@@ -156,9 +157,21 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
         horizontalArrangement = Arrangement.SpaceAround
     ) {
         RoundedButton(label = "Save") {
-            //Saving this book to firestore database
-            val book = MBook()
-            saveToFirebase(book)
+            //Saving this book to firestore database :)
+            val book = MBook(
+                title = bookData.title,
+                authors = bookData.authors.toString(),
+                description = bookData.description,
+                categories = bookData.categories.toString(),
+                notes = "",
+                photoUrl = bookData.imageLinks.thumbnail,
+                publishedDate = bookData.publishedDate,
+                pageCount = bookData.pageCount.toString(),
+                rating = 0.0,
+                googleBookId = googleBookId,
+                userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+            )
+            saveToFirebase(book, navController)
         }
         Spacer(modifier = Modifier.width(25.dp))
         RoundedButton(label = "Cancel") {
@@ -168,6 +181,29 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
 
 }
 
-fun saveToFirebase(book: MBook) {
+fun saveToFirebase(book: MBook, navController: NavController) {
     val db = FirebaseFirestore.getInstance()
+    val dbCollection = db.collection("books")
+
+    if (book.toString().isNotEmpty()) {
+        dbCollection.add(book)
+            .addOnSuccessListener { documentRef ->
+                val docId = documentRef.id
+                dbCollection.document(docId).update(hashMapOf("id" to docId) as Map<String, Any>)
+
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            navController.popBackStack()
+                        }
+                    }
+
+                    .addOnFailureListener {
+                        Log.d("ERROR", "saveToFirebase: Error Updating Doc :(", it)
+                    }
+
+            }
+    } else {
+    }
+
 }
+ 
