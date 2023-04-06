@@ -21,7 +21,7 @@ class BooksRepository @Inject constructor(private val api: BooksApi) {
 
     }
 
-    suspend fun getBookIndo(bookId: String): Resource<Item> {
+    suspend fun getBookInfo(bookId: String): Resource<Item> {
 
         val response = try {
             Resource.Loading(data = true)
