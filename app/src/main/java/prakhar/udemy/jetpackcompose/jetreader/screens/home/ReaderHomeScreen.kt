@@ -130,7 +130,7 @@ fun BookListArea(
 ) {
     HorizontalScrollableComponent(listOfBooks) {
         Log.d("Reading List", "BookListArea $it")
-        //TODO: On card clicked navigate to details
+        navController.navigate(ReaderScreens.UpdateScreen.name + "/$it")
     }
 }
 
