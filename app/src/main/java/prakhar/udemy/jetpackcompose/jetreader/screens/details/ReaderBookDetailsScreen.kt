@@ -22,10 +22,12 @@ import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.google.firebase.firestore.FirebaseFirestore
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
 import prakhar.udemy.jetpackcompose.jetreader.components.RoundedButton
 import prakhar.udemy.jetpackcompose.jetreader.data.Resource
 import prakhar.udemy.jetpackcompose.jetreader.model.Item
+import prakhar.udemy.jetpackcompose.jetreader.model.MBook
 
 @Composable
 fun BookDetailsScreen(
@@ -154,7 +156,9 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
         horizontalArrangement = Arrangement.SpaceAround
     ) {
         RoundedButton(label = "Save") {
-            //Save this book to firestore database
+            //Saving this book to firestore database
+            val book = MBook()
+            saveToFirebase(book)
         }
         Spacer(modifier = Modifier.width(25.dp))
         RoundedButton(label = "Cancel") {
@@ -162,4 +166,8 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
         }
     }
 
+}
+
+fun saveToFirebase(book: MBook) {
+    val db = FirebaseFirestore.getInstance()
 }
