@@ -43,7 +43,7 @@ fun SearchScreen(
             showProfile = false
         ) {
             navController.popBackStack()  //Works Better :)
-//          navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+            navController.navigate(ReaderScreens.ReaderHomeScreen.name) //To Update Reading List When Going Back
         }
     }) { contentPadding ->
         Surface(modifier = Modifier.padding(contentPadding)) {

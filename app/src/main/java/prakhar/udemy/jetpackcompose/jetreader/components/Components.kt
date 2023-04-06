@@ -251,7 +251,6 @@ fun BookRating(score: Double = 4.5) {
 }
 
 
-//@Preview
 @Composable
 fun ListCard(
     book: MBook = MBook("19", "The Subtle Art Of Not Giving A Fuck", "Unknown", "Very Good Book!"),
@@ -279,7 +278,7 @@ fun ListCard(
             Row(horizontalArrangement = Arrangement.Center) {
 
                 Image(
-                    painter = rememberAsyncImagePainter(model = "https://books.google.co.in/books/publisher/content?id=yng_CwAAQBAJ&pg=PP1&img=1&zoom=3&hl=en&bul=1&sig=ACfU3U1kgxrlkVTslOGgCqkLy6v9ANZV8g&w=1280"),
+                    painter = rememberAsyncImagePainter(model = book.photoUrl.toString()),
                     contentDescription = "book image",
                     modifier = Modifier
                         .height(140.dp)
