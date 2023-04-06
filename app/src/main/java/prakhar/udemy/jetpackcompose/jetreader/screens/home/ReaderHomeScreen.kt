@@ -12,9 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -27,7 +25,10 @@ import prakhar.udemy.jetpackcompose.jetreader.model.MBook
 import prakhar.udemy.jetpackcompose.jetreader.navigation.ReaderScreens
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+) {
     Scaffold(topBar = {
         ReaderAppBar(title = "JetReader", navController = navController)
     },
@@ -42,22 +43,39 @@ fun HomeScreen(navController: NavController) {
                 .fillMaxSize()
         ) {
             //Home content
-            HomeContent(navController = navController)
+            HomeContent(navController = navController, viewModel)
         }
 
     }
 }
 
-@Preview
+
 @Composable
-fun HomeContent(navController: NavController = NavController(LocalContext.current)) {
-    val listOfBooks = listOf(
-        MBook(id = "101", title = "Hello", authors = "All of us", notes = null),
-        MBook(id = "102", title = "Hello Again", authors = "All of us", notes = null),
-        MBook(id = "103", title = "Hi!", authors = "The world us", notes = null),
-        MBook(id = "104", title = "I am Prakhar", authors = "All of us", notes = null),
-        MBook(id = "105", title = "Love You :)", authors = "All of us", notes = null)
-    )
+fun HomeContent(
+    navController: NavController,
+    viewModel: HomeScreenViewModel
+) {
+
+//    val listOfBooks = listOf(
+//        MBook(id = "101", title = "Hello", authors = "All of us", notes = null),
+//        MBook(id = "102", title = "Hello Again", authors = "All of us", notes = null),
+//        MBook(id = "103", title = "Hi!", authors = "The world us", notes = null),
+//        MBook(id = "104", title = "I am Prakhar", authors = "All of us", notes = null),
+//        MBook(id = "105", title = "Love You :)", authors = "All of us", notes = null)
+//    )
+
+    var listOfBooks = emptyList<MBook>()
+    val currentUser = FirebaseAuth.getInstance().currentUser
+
+    if (!viewModel.data.value.data.isNullOrEmpty()) {
+        listOfBooks = viewModel.data.value.data!!.toList().filter { mBook ->
+            mBook.userId == currentUser?.uid.toString()
+        }
+
+        Log.d("LIST OF BOOK FOR USER", "HomeContent: ${listOfBooks.toString()}")
+    }
+
+
     val email = FirebaseAuth.getInstance().currentUser?.email
     val currentUserName = if (!email.isNullOrEmpty()) {
         //prakhar@me.com -> prakhar
