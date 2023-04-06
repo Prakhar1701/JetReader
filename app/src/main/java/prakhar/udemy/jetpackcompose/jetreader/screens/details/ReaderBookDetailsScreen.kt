@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
+import prakhar.udemy.jetpackcompose.jetreader.components.RoundedButton
 import prakhar.udemy.jetpackcompose.jetreader.data.Resource
 import prakhar.udemy.jetpackcompose.jetreader.model.Item
 
@@ -121,7 +122,7 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
         )
     }
 
-    
+
     // Book Description:
     val cleanDescription = HtmlCompat.fromHtml(
         bookData!!.description,
@@ -143,6 +144,21 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
 
                 Text(text = cleanDescription)
             }
+        }
+    }
+
+
+    // Buttons
+    Row(
+        modifier = Modifier.padding(top = 6.dp),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+        RoundedButton(label = "Save") {
+            //Save this book to firestore database
+        }
+        Spacer(modifier = Modifier.width(25.dp))
+        RoundedButton(label = "Cancel") {
+            navController.popBackStack()
         }
     }
 
