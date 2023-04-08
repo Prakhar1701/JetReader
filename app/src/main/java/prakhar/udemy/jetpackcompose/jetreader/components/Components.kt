@@ -240,7 +240,11 @@ fun BookRating(score: Double = 4.5) {
         elevation = 6.dp,
         color = Color.White
     ) {
-        Column(modifier = Modifier.padding(4.dp)) {
+        Column(
+            modifier = Modifier.padding(4.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
             Icon(
                 imageVector = Icons.Filled.Star, contentDescription = "Star",
                 modifier = Modifier.padding(3.dp)
@@ -298,7 +302,7 @@ fun ListCard(
                         modifier = Modifier.padding(bottom = 1.dp)
                     )
 
-                    BookRating(score = 3.5)
+                    BookRating(score = book.rating?.toDouble() ?: 0.0)
                 }
             }
             Text(
