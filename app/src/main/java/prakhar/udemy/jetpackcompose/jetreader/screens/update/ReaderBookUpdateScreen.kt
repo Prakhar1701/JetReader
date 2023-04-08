@@ -38,6 +38,7 @@ import prakhar.udemy.jetpackcompose.jetreader.components.RoundedButton
 import prakhar.udemy.jetpackcompose.jetreader.data.DataOrException
 import prakhar.udemy.jetpackcompose.jetreader.model.MBook
 import prakhar.udemy.jetpackcompose.jetreader.screens.home.HomeScreenViewModel
+import prakhar.udemy.jetpackcompose.jetreader.utils.formatDate
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -236,7 +237,7 @@ fun ShowSimpleForm(book: MBook, navController: NavController) {
                 }
 
             } else {
-                Text("Started on: ${book.startedReading}") //TODO: Format Date
+                Text("Started on: ${formatDate(book.startedReading!!)}") //TODO: Format Date
             }
         }
 
@@ -253,7 +254,7 @@ fun ShowSimpleForm(book: MBook, navController: NavController) {
                     Text(text = "Finished Reading!")
                 }
             } else {
-                Text("Finished on: ${book.startedReading}") //TODO: Format Date
+                Text("Finished on: ${formatDate(book.startedReading!!)}") //TODO: Format Date
             }
         }
 
