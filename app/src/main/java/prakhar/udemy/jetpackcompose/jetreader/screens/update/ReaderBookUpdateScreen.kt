@@ -2,24 +2,33 @@ package prakhar.udemy.jetpackcompose.jetreader.screens.update
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import prakhar.udemy.jetpackcompose.jetreader.components.InputField
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
 import prakhar.udemy.jetpackcompose.jetreader.data.DataOrException
 import prakhar.udemy.jetpackcompose.jetreader.model.MBook
@@ -84,6 +93,11 @@ fun BookUpdateScreen(
                             bookItemId = bookItemId
                         )  //bookInfo = viewModel.data.value ,part of temp solution for app crash...
                     }
+
+                    ShowSimpleForm(book = viewModel.data.value.data?.first { mBook ->
+                        mBook.googleBookId == bookItemId
+                    }!!, navController)
+
                 }
             }
         }
@@ -176,4 +190,58 @@ fun CardListItem(book: MBook, onPressDetails: () -> Unit) {
 
         }
     }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun ShowSimpleForm(book: MBook, navController: NavController) {
+
+    val notesText = remember {
+        mutableStateOf("")
+    }
+
+    SimpleForm(
+        defaultValue = if (book.notes.toString().isNotEmpty()) book.notes.toString()
+        else "No thoughts available."
+    ) { note ->
+        notesText.value = note
+    }
+
+}
+
+
+@OptIn(ExperimentalComposeUiApi::class)
+@ExperimentalComposeUiApi
+@Composable
+fun SimpleForm(
+    modifier: Modifier = Modifier,
+    loading: Boolean = false,
+    defaultValue: String = "Great Book!",
+    onSearch: (String) -> Unit
+) {
+
+    Column {
+        val textFieldValue = rememberSaveable { mutableStateOf(defaultValue) }
+        val keyboardController = LocalSoftwareKeyboardController.current
+        val valid = remember(textFieldValue.value) { textFieldValue.value.trim().isNotEmpty() }
+
+        InputField(
+            modifier
+                .fillMaxWidth()
+                .height(140.dp)
+                .padding(3.dp)
+                .background(Color.White, CircleShape)
+                .padding(horizontal = 20.dp, vertical = 12.dp),
+            valueState = textFieldValue,
+            labelId = "Enter Your thoughts",
+            enabled = true,
+            onAction = KeyboardActions {
+                if (!valid) return@KeyboardActions
+                onSearch(textFieldValue.value.trim())
+                keyboardController?.hide()
+            }
+        )
+
+    }
+
 }
