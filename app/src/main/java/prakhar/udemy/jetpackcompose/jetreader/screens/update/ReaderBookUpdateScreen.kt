@@ -19,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -34,6 +35,7 @@ import prakhar.udemy.jetpackcompose.jetreader.data.DataOrException
 import prakhar.udemy.jetpackcompose.jetreader.model.MBook
 import prakhar.udemy.jetpackcompose.jetreader.screens.home.HomeScreenViewModel
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BookUpdateScreen(
     navController: NavController,
@@ -196,9 +198,9 @@ fun CardListItem(book: MBook, onPressDetails: () -> Unit) {
 @Composable
 fun ShowSimpleForm(book: MBook, navController: NavController) {
 
-    val notesText = remember {
-        mutableStateOf("")
-    }
+    val notesText = remember { mutableStateOf("") }
+    val isStartedReading = remember { mutableStateOf(false) }
+    val isFinishedReading = remember { mutableStateOf(false) }
 
     SimpleForm(
         defaultValue = if (book.notes.toString().isNotEmpty()) book.notes.toString()
@@ -207,8 +209,52 @@ fun ShowSimpleForm(book: MBook, navController: NavController) {
         notesText.value = note
     }
 
-}
+    Row(
+        modifier = Modifier.padding(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ) {
 
+        TextButton(
+            onClick = { isStartedReading.value = true },
+            enabled = book.startedReading == null
+        ) {
+            if (book.startedReading == null) {
+                if (!isStartedReading.value) {
+                    Text(text = "Start Reading")
+                } else {
+                    Text(
+                        text = "Started Reading!",
+                        modifier = Modifier.alpha(0.6f),
+                        color = Color.Red.copy(alpha = 0.5f)
+                    )
+                }
+
+            } else {
+                Text("Started on: ${book.startedReading}") //TODO: Format Date
+            }
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        TextButton(
+            onClick = { isFinishedReading.value = true },
+            enabled = book.finishedReading == null
+        ) {
+            if (book.finishedReading == null) {
+                if (!isFinishedReading.value) {
+                    Text(text = "Mark as Read")
+                } else {
+                    Text(text = "Finished Reading!")
+                }
+            } else {
+                Text("Finished on: ${book.startedReading}") //TODO: Format Date
+            }
+        }
+
+    }
+
+}
 
 @OptIn(ExperimentalComposeUiApi::class)
 @ExperimentalComposeUiApi
