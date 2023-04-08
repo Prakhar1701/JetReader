@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
 import prakhar.udemy.jetpackcompose.jetreader.components.InputField
 import prakhar.udemy.jetpackcompose.jetreader.components.RatingBar
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
@@ -267,7 +269,40 @@ fun ShowSimpleForm(book: MBook, navController: NavController) {
 
     Spacer(modifier = Modifier.padding(bottom = 15.dp))
     Row {
-        RoundedButton(label = "Update") {}
+
+        val changedNotes = book.notes != notesText.value
+        val changedRating = book.rating?.toInt() != ratingVal.value
+        val isFinishedTimeStamp =
+            if (isFinishedReading.value) Timestamp.now() else book.finishedReading
+        val isStartedTimeStamp =
+            if (isStartedReading.value) Timestamp.now() else book.startedReading
+
+        val bookUpdate =
+            changedNotes || changedRating || isStartedReading.value || isFinishedReading.value
+
+        val bookToUpdate = hashMapOf(
+            "finished_reading_at" to isFinishedTimeStamp,
+            "started_reading_at" to isStartedTimeStamp,
+            "rating" to ratingVal.value,
+            "notes" to notesText.value
+        ).toMap()
+
+        RoundedButton(label = "Update") {
+            // Not Working Well :(
+            if (bookUpdate) {
+                FirebaseFirestore.getInstance()
+                    .collection("books")
+                    .document(book.id!!)
+                    .update(bookToUpdate)
+                    .addOnCompleteListener { task ->
+                        Log.d("UPDATED", "ShowSimpleForm: ${task.result.toString()}")
+                    }
+                    .addOnFailureListener() {
+                        Log.d("ERROR UPDATING", "ShowSimpleForm: Error updating document", it)
+                    }
+            }
+
+        }
 
         Spacer(modifier = Modifier.width(100.dp))
 
