@@ -32,6 +32,7 @@ import coil.compose.rememberAsyncImagePainter
 import prakhar.udemy.jetpackcompose.jetreader.components.InputField
 import prakhar.udemy.jetpackcompose.jetreader.components.RatingBar
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
+import prakhar.udemy.jetpackcompose.jetreader.components.RoundedButton
 import prakhar.udemy.jetpackcompose.jetreader.data.DataOrException
 import prakhar.udemy.jetpackcompose.jetreader.model.MBook
 import prakhar.udemy.jetpackcompose.jetreader.screens.home.HomeScreenViewModel
@@ -264,6 +265,14 @@ fun ShowSimpleForm(book: MBook, navController: NavController) {
         }
     }
 
+    Spacer(modifier = Modifier.padding(bottom = 15.dp))
+    Row {
+        RoundedButton(label = "Update") {}
+
+        Spacer(modifier = Modifier.width(100.dp))
+
+        RoundedButton("Delete") {}
+    }
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
