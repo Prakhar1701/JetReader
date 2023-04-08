@@ -53,7 +53,7 @@ fun BookUpdateScreen(
         ) {
             value = viewModel.data.value
         }.value
-
+        bookInfo.loading = true; //Temp Solution to for app crashing :|
         Surface(
             modifier = Modifier
                 .padding(it)
@@ -79,7 +79,10 @@ fun BookUpdateScreen(
                         shape = CircleShape,
                         elevation = 4.dp
                     ) {
-                        ShowBookUpdate(bookInfo = viewModel.data.value, bookItemId = bookItemId)
+                        ShowBookUpdate(
+                            bookInfo = viewModel.data.value,
+                            bookItemId = bookItemId
+                        )  //bookInfo = viewModel.data.value ,part of temp solution for app crash...
                     }
                 }
             }
