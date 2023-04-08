@@ -1,6 +1,8 @@
 package prakhar.udemy.jetpackcompose.jetreader.components
 
+import android.content.Context
 import android.view.MotionEvent
+import android.widget.Toast
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -370,6 +372,7 @@ fun RoundedButton(
         }
     }
 }
+
 //--------------------------------------------------------------------------------------------------
 //Rating Bar
 @ExperimentalComposeUiApi
@@ -420,5 +423,10 @@ fun RatingBar(
             )
         }
     }
+}
+
+fun showToast(context: Context, msg: String) {
+    Toast.makeText(context, msg, Toast.LENGTH_LONG)
+        .show()
 }
 //--------------------------------------------------------------------------------------------------

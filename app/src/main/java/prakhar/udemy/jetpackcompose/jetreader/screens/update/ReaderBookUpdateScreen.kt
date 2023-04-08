@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -31,12 +32,10 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
-import prakhar.udemy.jetpackcompose.jetreader.components.InputField
-import prakhar.udemy.jetpackcompose.jetreader.components.RatingBar
-import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
-import prakhar.udemy.jetpackcompose.jetreader.components.RoundedButton
+import prakhar.udemy.jetpackcompose.jetreader.components.*
 import prakhar.udemy.jetpackcompose.jetreader.data.DataOrException
 import prakhar.udemy.jetpackcompose.jetreader.model.MBook
+import prakhar.udemy.jetpackcompose.jetreader.navigation.ReaderScreens
 import prakhar.udemy.jetpackcompose.jetreader.screens.home.HomeScreenViewModel
 import prakhar.udemy.jetpackcompose.jetreader.utils.formatDate
 
@@ -203,6 +202,7 @@ fun CardListItem(book: MBook, onPressDetails: () -> Unit) {
 @Composable
 fun ShowSimpleForm(book: MBook, navController: NavController) {
 
+    val context = LocalContext.current
     val notesText = remember { mutableStateOf("") }
     val isStartedReading = remember { mutableStateOf(false) }
     val isFinishedReading = remember { mutableStateOf(false) }
@@ -297,6 +297,8 @@ fun ShowSimpleForm(book: MBook, navController: NavController) {
                     .update(bookToUpdate)
                     .addOnCompleteListener { task ->
                         Log.d("UPDATED", "ShowSimpleForm: ${task.result.toString()}")
+                        showToast(context, "Book Update Successfully!")
+                        navController.navigate(ReaderScreens.ReaderHomeScreen.name)
                     }
                     .addOnFailureListener() {
                         Log.d("ERROR UPDATING", "ShowSimpleForm: Error updating document", it)
