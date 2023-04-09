@@ -8,10 +8,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.sharp.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -199,8 +201,23 @@ fun BookRowStats(
 
             Column {
 
-                Text(text = book.title.toString(), overflow = TextOverflow.Ellipsis)
-                
+                Row(horizontalArrangement = Arrangement.SpaceBetween) {
+
+                    Text(text = book.title.toString(), overflow = TextOverflow.Ellipsis)
+
+                    if (book.rating!! >= 4) {
+                        Spacer(modifier = Modifier.fillMaxWidth(0.8f))
+                        Icon(
+                            imageVector = Icons.Default.ThumbUp,
+                            contentDescription = "Thumbs up",
+                            tint = Color.Red.copy(alpha = 0.5f)
+                        )
+                    } else {
+                        Box {}
+                    }
+
+                }
+
                 Text(
                     text = "Author: ${book.authors}",
                     overflow = TextOverflow.Clip,
