@@ -90,7 +90,7 @@ fun HomeContent(
     ) {
         Row(modifier = Modifier.align(alignment = Alignment.Start)) {
 
-            TitleSection(label = "Your reading \n " + " activity right now...")
+            TitleSection(label = "Your reading \n" + "activity right now...")
 
             Spacer(modifier = Modifier.fillMaxWidth(0.7f))
             Column {
@@ -117,7 +117,7 @@ fun HomeContent(
             }
         }
 
-        ReadingRightNowArea(listOfBooks = listOf(), navController = navController)
+        ReadingRightNowArea(listOfBooks = listOfBooks, navController = navController)
 
         TitleSection(label = "Reading List")
 
@@ -148,9 +148,16 @@ fun ReadingRightNowArea(
     listOfBooks: List<MBook>,
     navController: NavController
 ) {
-    ListCard()
-}
+    //Filtering books by reading now
+    val readingNowList =
+        listOfBooks.filter { mBook ->
+            mBook.startedReading != null && mBook.finishedReading == null
+        }
 
+    HorizontalScrollableComponent(listOfBooks = readingNowList) {
+        navController.navigate(ReaderScreens.UpdateScreen.name + "/$it")
+    }
+}
 
 @Composable
 fun HorizontalScrollableComponent(
