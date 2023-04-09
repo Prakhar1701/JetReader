@@ -1,6 +1,9 @@
 package prakhar.udemy.jetpackcompose.jetreader.screens.stats
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -9,13 +12,18 @@ import androidx.compose.material.icons.sharp.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.auth.FirebaseAuth
 import prakhar.udemy.jetpackcompose.jetreader.components.ReaderAppBar
 import prakhar.udemy.jetpackcompose.jetreader.model.MBook
 import prakhar.udemy.jetpackcompose.jetreader.screens.home.HomeScreenViewModel
+import prakhar.udemy.jetpackcompose.jetreader.utils.formatDate
 import java.util.*
 
 @Composable
@@ -110,6 +118,110 @@ fun ReaderStatsScreen(
                     }
 
                 }
+
+                if (viewModel.data.value.loading == true) {
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        LinearProgressIndicator()
+                    }
+
+                } else {
+
+                    Divider()
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        contentPadding = PaddingValues(16.dp)
+                    ) {
+
+                        //filter books by finished ones
+                        val readBooks: List<MBook> =
+                            if (!viewModel.data.value.data.isNullOrEmpty()) {
+                                viewModel.data.value.data!!.filter { mBook ->
+                                    (mBook.userId == currentUser?.uid) && (mBook.finishedReading != null)
+                                }
+                            } else {
+                                emptyList()
+                            }
+
+                        items(readBooks) { book ->
+                            BookRowStats(book = book)
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+@Composable
+fun BookRowStats(
+    book: MBook
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)
+            .padding(3.dp),
+        shape = RectangleShape,
+        elevation = 7.dp
+    ) {
+        Row(
+            modifier = Modifier.padding(5.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+
+            val imageUrl: String = if (book.photoUrl.toString().isEmpty())
+                "https://i.stack.imgur.com/D2VB2.png"
+            else {
+                book.photoUrl.toString()
+            }
+            Image(
+                painter = rememberAsyncImagePainter(model = imageUrl),
+                contentDescription = "book image",
+                modifier = Modifier
+                    .width(80.dp)
+                    .fillMaxHeight()
+                    .padding(end = 4.dp),
+            )
+
+            Column {
+
+                Text(text = book.title.toString(), overflow = TextOverflow.Ellipsis)
+                
+                Text(
+                    text = "Author: ${book.authors}",
+                    overflow = TextOverflow.Clip,
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.caption
+                )
+
+                Text(
+                    text = "Started: ${formatDate(book.startedReading!!)}",
+                    softWrap = true,
+                    overflow = TextOverflow.Clip,
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.caption
+                )
+
+                Text(
+                    text = "Finished: ${formatDate(book.finishedReading!!)}",
+                    overflow = TextOverflow.Clip,
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.caption
+                )
 
             }
 
