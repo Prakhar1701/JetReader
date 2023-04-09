@@ -325,12 +325,22 @@ fun ListCard(
                 text = book.authors.toString(), modifier = Modifier.padding(4.dp),
                 style = MaterialTheme.typography.caption
             )
+
+            val isStartedReading = remember {
+                mutableStateOf(false)
+            }
+
             Row(
                 modifier = Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.Bottom
             ) {
-                RoundedButton(label = "Reading", radius = 70)
+                isStartedReading.value = book.startedReading != null
+
+                RoundedButton(
+                    label = if (isStartedReading.value) "Reading" else "Not Started",
+                    radius = 70
+                )
             }
         }
     }
